@@ -9,10 +9,10 @@ const CharInfo = () => {
                 <div>
                     <div className="char__info-name">thor</div>
                     <div className="char__btns">
-                        <a href="#" className="button button__main">
+                        <a href="/" className="button button__main">
                             <div className="inner">homepage</div>
                         </a>
-                        <a href="#" className="button button__secondary">
+                        <a href="/" className="button button__secondary">
                             <div className="inner">Wiki</div>
                         </a>
                     </div>
@@ -24,16 +24,16 @@ const CharInfo = () => {
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">
                 <li className="char__comics-item">
-                    All-Winners Squad: Band of Heroes (2011) #3
+                    All-Winners Squad: Band of Heroes (2011) /3
                 </li>
                 <li className="char__comics-item">
-                    Alpha Flight (1983) #50
+                    Alpha Flight (1983) /50
                 </li>
                 <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #503
+                    Amazing Spider-Man (1999) /503
                 </li>
                 <li className="char__comics-item">
-                    Amazing Spider-Man (1999) #504
+                    Amazing Spider-Man (1999) /504
                 </li>
                 <li className="char__comics-item">
                     AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)
@@ -45,13 +45,13 @@ const CharInfo = () => {
                     Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)
                 </li>
                 <li className="char__comics-item">
-                    Vengeance (2011) #4
+                    Vengeance (2011) /4
                 </li>
                 <li className="char__comics-item">
-                    Avengers (1963) #1
+                    Avengers (1963) /1
                 </li>
                 <li className="char__comics-item">
-                    Avengers (1996) #1
+                    Avengers (1996) /1
                 </li>
             </ul>
         </div>
