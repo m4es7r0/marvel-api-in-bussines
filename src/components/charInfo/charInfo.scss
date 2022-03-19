@@ -12,6 +12,9 @@
             font-size: 22px;
             line-height: 29px;
             text-transform: uppercase;
+            &__long {
+                font-size: 16px;
+            }
         }
         .skeleton {
             margin-top: 30px;
@@ -24,7 +27,7 @@
         img {
             width: 150px;
             height: 150px;
-            object-fit: cover;
+            object-fit: fill;
         }
     }
     &__btns {

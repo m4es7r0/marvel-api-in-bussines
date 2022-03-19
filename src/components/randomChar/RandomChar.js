@@ -36,15 +36,18 @@ class RandomChar extends Component {
         })
     }
 
+// 1009643 ---> char which the has (image not avaliable)
+// Math.floor(Math.random() * (1011400 - 1011000) + 1011000) ---> algorithm wich the created random ids char
+
     updateChar = () => {
-        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
+        const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
         this.onCharLoading()
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded)
             .catch(this.onError)
         if (!this.state.error) {
-            this.onCharLoading();
+            this.onCharLoading()
             }
     }
 
@@ -92,14 +95,14 @@ const View = ({char}) => {
     }
     
     function UseName() {
-        if (name.length > 22) return <NameLong/>
+        if (name.length >= 22) return <NameLong/>
         else return <NameShort/>
     }
 
     const { name, description, thumbnail, homepage, wiki } = char
-    let imgStyle = {'objectFit': 'cover'}
-    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-        imgStyle = {'objectFit': 'contain'}
+    let imgStyle = {'objectFit': ''}
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif") {
+        imgStyle = {'objectFit': 'unset'}
     }
 
     return (
