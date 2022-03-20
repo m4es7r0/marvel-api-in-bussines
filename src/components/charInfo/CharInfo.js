@@ -2,7 +2,9 @@ import { Component } from 'react'
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 import Skeleton from '../skeleton/Skeleton'
+import PropTypes from 'prop-types'
 import MarvelService from '../../services/MarvelService'
+
 import './charInfo.scss';
 
 class CharInfo extends Component {
@@ -97,7 +99,7 @@ const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki, comics } = char
 
     let imgStyle = { 'objectFit': '' }
-    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif") {
+    if (thumbnail.includes('image_not_available') || thumbnail.includes('4c002e0305708')) {
         imgStyle = { 'objectFit': 'unset' }
     }
 
@@ -125,7 +127,7 @@ const View = ({ char }) => {
                 {comics.length > 0 ? null : 'Comics not found'}
                 {
                     comics.map((item, i) => {
-                        if (i >= 10) {
+                        if (i >= 9) {
                             // eslint-disable-next-line
                             return
                         } else {
@@ -140,6 +142,12 @@ const View = ({ char }) => {
             </ul>
         </>
     )
+}
+
+
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
 }
 
 export default CharInfo;

@@ -28,7 +28,7 @@
             object-fit: fill;
             transform: translate(-15px, -15px);
         }
-        &_selected {
+        &__selected {
             box-shadow: 0 5px 20px $main-color;
             transform: translateY(-8px);
         }
