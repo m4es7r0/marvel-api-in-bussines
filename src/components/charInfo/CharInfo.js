@@ -1,80 +1,64 @@
-import { Component } from 'react'
+import { useState, useEffect } from 'react'
+
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 import Skeleton from '../skeleton/Skeleton'
 import PropTypes from 'prop-types'
+
 import MarvelService from '../../services/MarvelService'
 
 import './charInfo.scss';
 
-class CharInfo extends Component {
+const CharInfo = (props) => {
 
-    state = {
-        char: null,
-        loading: false,
-        error: false
-    }
+    const [char, setChar] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
-    marverlService = new MarvelService()
+    const marverlService = new MarvelService()
 
-    componentDidMount() {
-        this.updateChar()
-    }
+    useEffect(() => { updateChar() }, [props.charId])
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar()
-        }
-    }
-
-    updateChar() {
-        const { charId } = this.props
+    const updateChar = () => {
+        const { charId } = props
         if (!charId) {
-            return null
+            return
         }
-
-        this.onCharLoading()
-        this.marverlService
+        onCharLoading()
+        marverlService
             .getCharacter(charId)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
+            .then(onCharLoaded)
+            .catch(onError)
     }
 
-    onCharLoaded = (char) => {
-        this.setState({ char, loading: false, error: false })
+    const onCharLoaded = (char) => {
+        setChar(char)
+        setLoading(false)
+        setError(false)
     }
 
-    onCharLoading = () => {
-        this.setState({
-            loading: true
-        })
+    const onCharLoading = () => {
+        setLoading(true)
     }
 
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
+    const onError = () => {
+        setLoading(false)
+        setError(true)
     }
 
-    render() {
+    const skeleton = char || loading || error ? null : <Skeleton />
+    const errorMassage = error ? <ErrorMessage /> : null
+    const spinner = loading ? <Spinner /> : null
+    const content = !(loading || error || !char) ? <View char={char} /> : null
 
-        const { char, loading, error } = this.state
-
-        const skeleton = char || loading || error ? null : <Skeleton />
-        const errorMassage = error ? <ErrorMessage /> : null
-        const spinner = loading ? <Spinner /> : null
-        const content = !(loading || error || !char) ? <View char={char} /> : null
-
-        return (
-            <div className="char__info">
-                {skeleton}
-                {errorMassage}
-                {spinner}
-                {content}
-            </div>
-        )
-    }
+    return (
+        <div className="char__info">
+            {skeleton}
+            {errorMassage}
+            {spinner}
+            {content}
+        </div>
+    )
 }
 
 const View = ({ char }) => {
@@ -84,16 +68,16 @@ const View = ({ char }) => {
             <p className="char__info-name">{name}</p>
         )
     }
-    
+
     const NameLong = () => {
         return (
             <p className="char__info-name char__info-name__long">{name}</p>
         )
     }
-    
+
     function UseName() {
-        if (name.length >= 19 ) return <NameLong/>
-        else return <NameShort/>
+        if (name.length >= 19) return <NameLong />
+        else return <NameShort />
     }
 
     const { name, description, thumbnail, homepage, wiki, comics } = char
@@ -108,7 +92,7 @@ const View = ({ char }) => {
             <div className="char__basics">
                 <img src={thumbnail} alt={name} style={imgStyle} />
                 <div>
-                    <UseName/>
+                    <UseName />
                     <div className="char__btns">
                         <a href={homepage} className="button button__main">
                             <div className="inner">homepage</div>

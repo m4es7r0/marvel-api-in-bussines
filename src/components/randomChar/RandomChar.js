@@ -1,4 +1,4 @@
-import { Component } from 'react/cjs/react.production.min'
+import { useState, useEffect } from 'react'
 import MarvelService from '../../services/MarvelService'
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
@@ -6,56 +6,55 @@ import ErrorMessage from '../errorMessage/ErrorMessage'
 import './randomChar.scss'
 import mjolnir from '../../resources/img/mjolnir.png'
 
-class RandomChar extends Component {
-    state = {
-        char: {},
-        loading: true,
-        error: false
+const RandomChar = () => {
+
+    const [char, setChar] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+
+    const marvelService = new MarvelService()
+
+    useEffect(() => {
+        updateChar(char)
+        const timerId = setInterval(updateChar, 5000)
+        return () => {
+            clearInterval(timerId)
+        }
+    }, [])
+
+    const onCharLoaded = (char) => {
+        setChar(char)
+        setLoading(false)
+        setError(false)
     }
 
-    marvelService = new MarvelService()
-
-    componentDidMount() {
-        this.updateChar()
+    const onCharLoading = () => {
+        setLoading(true)
     }
 
-    onCharLoaded = (char) => {
-        this.setState({ char, loading: false, error: false })
+    const onError = () => {
+        setLoading(false)
+        setError(true)
     }
 
-    onCharLoading = () => {
-        this.setState({
-            loading: true
-        })
-    }
+    // 1009643 ---> char which the has (image not avaliable)
+    // Math.floor(Math.random() * (1011400 - 1011000) + 1011000) ---> algorithm wich the created random ids char
 
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true
-        })
-    }
-
-// 1009643 ---> char which the has (image not avaliable)
-// Math.floor(Math.random() * (1011400 - 1011000) + 1011000) ---> algorithm wich the created random ids char
-
-    updateChar = () => {
+    const updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        this.onCharLoading()
-        this.marvelService
+        onCharLoading()
+        marvelService
             .getCharacter(id)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
-        if (!this.state.error) {
-            this.onCharLoading()
-            }
+            .then(onCharLoaded)
+            .catch(onError)
+        if (!error) {
+            onCharLoading()
+        }
     }
 
-    render() {
-        const { char, loading, error } = this.state
-        const errorMassage = error ? <ErrorMessage/> : null
-        const spinner = loading ? <Spinner/> : null
-        const content = !(loading || error) ? <View char={char}/> : null
+        const errorMassage = error ? <ErrorMessage /> : null
+        const spinner = loading ? <Spinner /> : null
+        const content = !(loading || error) ? <View char={char} /> : null
 
         return (
             <div className="randomchar">
@@ -70,46 +69,45 @@ class RandomChar extends Component {
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button onClick={this.updateChar} className="button button__main">
+                    <button onClick={updateChar} className="button button__main">
                         <div className="inner">try it</div>
                     </button>
                     <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
                 </div>
             </div>
         )
-    }
 }
 
-const View = ({char}) => {
+const View = ({ char }) => {
 
     const NameShort = () => {
         return (
             <p className="randomchar__name">{name}</p>
         )
     }
-    
+
     const NameLong = () => {
         return (
             <p className="randomchar__name randomchar__name__long">{name}</p>
         )
     }
-    
+
     function UseName() {
-        if (name.length >= 22) return <NameLong/>
-        else return <NameShort/>
+        if (name.length >= 22) return <NameLong />
+        else return <NameShort />
     }
 
     const { name, description, thumbnail, homepage, wiki } = char
-    let imgStyle = {'objectFit': ''}
+    let imgStyle = { 'objectFit': '' }
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif") {
-        imgStyle = {'objectFit': 'unset'}
+        imgStyle = { 'objectFit': 'unset' }
     }
 
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" style={imgStyle}/>
+            <img src={thumbnail} alt="Random character" className="randomchar__img" style={imgStyle} />
             <div className="randomchar__info">
-                <UseName/>
+                <UseName />
                 <p className="randomchar__descr">
                     {description}
                 </p>
