@@ -5,45 +5,29 @@ import ErrorMessage from '../errorMessage/ErrorMessage'
 import Skeleton from '../skeleton/Skeleton'
 import PropTypes from 'prop-types'
 
-import MarvelService from '../../services/MarvelService'
+import useMarvelService from '../../services/MarvelService'
 
 import './charInfo.scss';
 
 const CharInfo = (props) => {
 
     const [char, setChar] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
-
-    const marverlService = new MarvelService()
 
     useEffect(() => { updateChar() }, [props.charId])
+
+    const {loading, error, getCharacter, clearError} = useMarvelService()
 
     const updateChar = () => {
         const { charId } = props
         if (!charId) {
             return
         }
-        onCharLoading()
-        marverlService
-            .getCharacter(charId)
-            .then(onCharLoaded)
-            .catch(onError)
+        clearError()
+        getCharacter(charId).then(onCharLoaded)
     }
 
     const onCharLoaded = (char) => {
         setChar(char)
-        setLoading(false)
-        setError(false)
-    }
-
-    const onCharLoading = () => {
-        setLoading(true)
-    }
-
-    const onError = () => {
-        setLoading(false)
-        setError(true)
     }
 
     const skeleton = char || loading || error ? null : <Skeleton />
@@ -62,29 +46,28 @@ const CharInfo = (props) => {
 }
 
 const View = ({ char }) => {
-
-    const NameShort = () => {
-        return (
-            <p className="char__info-name">{name}</p>
-        )
-    }
-
-    const NameLong = () => {
-        return (
-            <p className="char__info-name char__info-name__long">{name}</p>
-        )
-    }
-
-    function UseName() {
-        if (name.length >= 19) return <NameLong />
-        else return <NameShort />
-    }
-
     const { name, description, thumbnail, homepage, wiki, comics } = char
 
     let imgStyle = { 'objectFit': '' }
     if (thumbnail.includes('image_not_available') || thumbnail.includes('4c002e0305708')) {
         imgStyle = { 'objectFit': 'unset' }
+    }
+
+    const NameShort = () => {
+        return (
+            <p className="randomchar__name">{name}</p>
+        )
+    }
+    
+    const NameLong = () => {
+        return (
+            <p className="randomchar__name randomchar__name__long">{name}</p>
+        )
+    }
+    
+    const UseName = () => {
+        if (name.length >= 19) return <NameLong />
+        else return <NameShort />
     }
 
     return (
