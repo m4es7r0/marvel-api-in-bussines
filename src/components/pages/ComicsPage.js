@@ -6,10 +6,10 @@ import AppBanner from '../appBanner/AppBanner'
 export const ComicsPage = () => {
     return (
         <>
-            <AppBanner/>
+            <AppBanner />
             <Routes>
-                <Route path=':id' element={<SingleComicPage/>} />
-                <Route path='/' element={<ComicsList/>} />
+                <Route path=':id' element={<SingleComicPage />} />
+                <Route path='/' element={<ComicsList />} />
             </Routes>
         </>
     )

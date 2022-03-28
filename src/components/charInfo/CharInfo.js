@@ -15,7 +15,7 @@ const CharInfo = (props) => {
 
     useEffect(() => { updateChar() }, [props.charId])
 
-    const {loading, error, getCharacter, clearError} = useMarvelService()
+    const { loading, error, getCharacter, clearError } = useMarvelService()
 
     const updateChar = () => {
         const { charId } = props
@@ -58,13 +58,13 @@ const View = ({ char }) => {
             <p className="randomchar__name">{name}</p>
         )
     }
-    
+
     const NameLong = () => {
         return (
             <p className="randomchar__name randomchar__name__long">{name}</p>
         )
     }
-    
+
     const UseName = () => {
         if (name.length >= 19) return <NameLong />
         else return <NameShort />
@@ -110,8 +110,6 @@ const View = ({ char }) => {
         </>
     )
 }
-
-
 
 CharInfo.propTypes = {
     charId: PropTypes.number
