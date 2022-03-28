@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
@@ -15,7 +16,7 @@ const CharInfo = (props) => {
 
     useEffect(() => { updateChar() }, [props.charId])
 
-    const {loading, error, getCharacter, clearError} = useMarvelService()
+    const { loading, error, getCharacter, clearError } = useMarvelService()
 
     const updateChar = () => {
         const { charId } = props
@@ -58,13 +59,13 @@ const View = ({ char }) => {
             <p className="randomchar__name">{name}</p>
         )
     }
-    
+
     const NameLong = () => {
         return (
             <p className="randomchar__name randomchar__name__long">{name}</p>
         )
     }
-    
+
     const UseName = () => {
         if (name.length >= 19) return <NameLong />
         else return <NameShort />
@@ -94,13 +95,14 @@ const View = ({ char }) => {
                 {comics.length > 0 ? null : 'Comics not found'}
                 {
                     comics.map((item, i) => {
+                        const id = item.resourceURI.replace(/http:\/\/gateway.marvel.com\/v1\/public\/comics\//, '')
                         if (i >= 9) {
                             // eslint-disable-next-line
                             return
                         } else {
                             return (
                                 <li key={i} className="char__comics-item">
-                                    {item.name}
+                                    <Link to={`/comics/${id}`} >{item.name}</Link>
                                 </li>
                             )
                         }
@@ -110,8 +112,6 @@ const View = ({ char }) => {
         </>
     )
 }
-
-
 
 CharInfo.propTypes = {
     charId: PropTypes.number
