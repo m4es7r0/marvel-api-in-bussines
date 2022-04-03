@@ -77,6 +77,9 @@ const View = ({ char }) => {
                 <img src={thumbnail} alt={name} style={imgStyle} />
                 <div>
                     <UseName />
+                    <div className="char__descr">
+                        {description.slice(0, 103)}
+                    </div>
                     <div className="char__btns">
                         <a href={homepage} className="button button__main">
                             <div className="inner">homepage</div>
@@ -86,9 +89,6 @@ const View = ({ char }) => {
                         </a>
                     </div>
                 </div>
-            </div>
-            <div className="char__descr">
-                {description}
             </div>
             <div className="char__comics">Comics:</div>
             <ul className="char__comics-list">

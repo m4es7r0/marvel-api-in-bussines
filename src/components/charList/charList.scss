@@ -5,8 +5,15 @@
         margin-top: 50px;
         display: grid;
         grid-template-columns: 650px 425px;
-        column-gap: 25px;
+        grid-gap: 25px;
         align-items: start;
+        overflow: visible;
+    &__iner {
+        display: grid;
+        row-gap: 25px;
+        top: 0;
+        position: sticky;
+    }  
     }
     &__grid {
         display: grid;

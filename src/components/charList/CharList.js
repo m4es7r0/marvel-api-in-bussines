@@ -97,6 +97,7 @@ const CharList = (props) => {
                 <div className="inner">load more</div>
             </button>
         </div>
+
     )
 }
 
