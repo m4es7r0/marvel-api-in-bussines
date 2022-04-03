@@ -1,38 +1,23 @@
 @import '../../style/variables.scss';
 
-.single-char {
+.single-comic {
     margin-top: 50px;
     display: grid;
     grid-template-columns: 293px 550px auto;
     column-gap: 50px;
     align-items: start;
-    &__img {
+    &__char-img {
         width: 293px;
         height: 293px;
-        object-fit: fill;
     }
     &__name {
-        font-weight: 700;
+        font-weight: bold;
         font-size: 22px;
-        line-height: 24px;
+        line-height: 29px;
     }
     &__descr {
         font-size: 18px;
-        font-weight: 400;
         line-height: 24px;
         margin-top: 25px;
-    }
-    &__back {
-        justify-self: end;
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 24px;
-        &:hover {
-            color: $main-color;
-        }
-    }
-    a {
-        transition: all 200ms ease-in-out;
-        margin-right: 9px;
     }
 }
