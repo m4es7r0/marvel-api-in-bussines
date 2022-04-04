@@ -1,6 +1,7 @@
 @import '../../style/variables.scss';
 
 .char {
+
     &__info {
         z-index: 5;
         padding: 25px;
@@ -13,6 +14,26 @@
             text-transform: uppercase;
             &__long {
                 font-size: 16px;
+            }
+        }
+        &__anim {
+            @keyframes animInfo {
+                0%{
+                    opacity: 0;
+                    transform: scale(0.9);
+                    transform: translateY(5px);
+                }
+                100%{
+                    opacity: 1;
+                    transform: scale(1);
+                    transform: translateY(0);
+                }
+            }
+            &-enter {
+                animation: animInfo .6s;
+            }
+            &-enter-done {
+                
             }
         }
         .skeleton {
@@ -58,10 +79,6 @@
                 &::-webkit-scrollbar {
                     width: 4.4px;
                 }
-                /* &::-webkit-scrollbar-track {
-                    background: #fff;
-                    border-radius: 50px;
-                  } */
                 &::-webkit-scrollbar-thumb {
                     background-image: linear-gradient(180deg, #9F0013 0%, #5C5C5C 99%);
                     box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
@@ -88,5 +105,4 @@
         line-height: 24px;
         text-align: center;
     }
-
 }

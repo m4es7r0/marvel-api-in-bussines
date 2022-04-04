@@ -6,7 +6,7 @@ import CharInfo from "../charInfo/CharInfo";
 import SearchChar from "../form/SearchChar";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
-import decoration from '../../resources/img/vision.png';
+// import decoration from '../../resources/img/vision.png';
 
 export const MainPage = () => {
     const [selectedItem, setItem] = useState(null);

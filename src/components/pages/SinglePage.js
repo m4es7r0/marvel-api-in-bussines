@@ -6,40 +6,44 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import AppBanner from "../appBanner/AppBanner";
 
-const SinglePage = ({Component, dataType}) => {
-        const {id} = useParams();
-        const [data, setData] = useState(null);
-        const {loading, error, getCharacter, clearError} = useMarvelService();
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-        useEffect(() => {
-            updateData()
-        }, [id])
+const SinglePage = ({ Component, dataType }) => {
+    const { id } = useParams();
+    const [data, setData] = useState(null);
+    const { loading, error, getCharacter, clearError } = useMarvelService();
 
-        const updateData = () => {
-            clearError();
-            getCharacter(id).then(onDataLoaded)
-            // switch (dataType) {
-            //     case 'char':
-            //         getCharacterByName(id).then(onDataLoaded);
-            // }
-        }
+    useEffect(() => {
+        updateData()
+    }, [id])
 
-        const onDataLoaded = (data) => {
-            setData(data);
-        }
+    const updateData = () => {
+        clearError();
+        getCharacter(id).then(onDataLoaded)
+        // switch (dataType) {
+        //     case 'char':
+        //         getCharacterByName(id).then(onDataLoaded);
+        // }
+    }
 
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error || !data) ? <Component data={data}/> : null;
+    const onDataLoaded = (data) => {
+        setData(data);
+    }
 
-        return (
-            <>
-                <AppBanner/>
-                {errorMessage}
-                {spinner}
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error || !data) ? <CSSTransition classNames={'anim'} timeout={500}><Component data={data} /></CSSTransition> : null;
+
+    return (
+        <>
+            <AppBanner />
+            {errorMessage}
+            {spinner}
+            <TransitionGroup component={null}>
                 {content}
-            </>
-        )
+            </TransitionGroup>
+        </>
+    )
 }
 
 export default SinglePage;

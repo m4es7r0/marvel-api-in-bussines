@@ -53,7 +53,7 @@ const SearchChar = () => {
                     <div className="char__search-wrapper">
                         <Field 
                             id="charName" 
-                            name='charName' 
+                            name='charName'
                             type='text' 
                             placeholder="Enter name"/>
                         <button 

@@ -5,6 +5,8 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import './comicsList.scss';
 // import uw from '../../resources/img/UW.png';
 // import xMen from '../../resources/img/x-men.png';
@@ -13,7 +15,7 @@ const ComicsList = (props) => {
 
     const [comicsList, setComicsList] = useState([])
     const [newItemLoading, setNewItemLoading] = useState(false)
-    const [offset, setOffset] = useState(0)
+    const [offset, setOffset] = useState(200)
     const [comicsEnded, setComicsEnded] = useState(false)
 
     const { loading, error, clearError, getAllComics } = useMarvelService();
@@ -48,27 +50,30 @@ const ComicsList = (props) => {
             }
 
             return (
-                <li className="comics__item"
-                    tabIndex={0}
-                    ref={(el) => itemRefs.current[i] = el}
-                    key={item.id}
-                    onKeyDown={(e) => {
-                        if (e.key === '' || e.key === 'Enter') {
-                            props.onItemSelected(item.id)
-                        }
-                    }}>
-                    <Link to={`${item.id}`}>
-                        <img src={item.thumbnail} alt={item.title} style={imgStyle} className="comics__item-img" />
-                        <div className="comics__item-name">{item.title}</div>
-                        <div className="comics__item-price">9.99$</div>
-                    </Link>
-                </li>
+                <CSSTransition key={item.id} timeout={600} classNames="comics__item__anim">
+                    <li className="comics__item"
+                        tabIndex={0}
+                        ref={(el) => itemRefs.current[i] = el}
+                        onKeyDown={(e) => {
+                            if (e.key === '' || e.key === 'Enter') {
+                                props.onItemSelected(item.id)
+                            }
+                        }}>
+                        <Link to={`${item.id}`}>
+                            <img src={item.thumbnail} alt={item.title} style={imgStyle} className="comics__item-img" />
+                            <div className="comics__item-name">{item.title}</div>
+                            <div className="comics__item-price">{item.price}</div>
+                        </Link>
+                    </li>
+                </CSSTransition>
             )
         })
 
         return (
             <ul className="comics__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+                </TransitionGroup>
             </ul>
         )
     }

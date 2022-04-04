@@ -1,6 +1,28 @@
 @import '../../style/variables.scss';
 
 .randomchar {
+
+    .anim {
+        @keyframes animationChar {
+            0%{
+                opacity: 0;
+                transform: scale(0.9);
+                /* transform: translateY(-200px); */
+            }
+            100%{
+                opacity: 1;
+                transform: scale(1);
+                /* transform: translateY(0); */
+            }
+        }
+        &-enter {
+            animation: animationChar .6s;
+        }
+        &-enter-done {
+            
+        }
+    }
+
     display: grid;
     align-items: center;
     grid-template-columns: repeat(2, 50%);
@@ -44,7 +66,10 @@
         display: block;
         padding: 40px 35px;
         background-color: $dark;
-        position: relative;
+        position: absolute;
+        z-index: 1;
+        right: 0px;
+        width: 560px;
         button {
             margin-top: 13px;
         }

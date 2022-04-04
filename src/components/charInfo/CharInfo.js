@@ -5,10 +5,11 @@ import Spinner from '../spinner/Spinner'
 import ErrorMessage from '../errorMessage/ErrorMessage'
 import Skeleton from '../skeleton/Skeleton'
 import PropTypes from 'prop-types'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import useMarvelService from '../../services/MarvelService'
 
-import './charInfo.scss';
+import './charInfo.scss'
 
 const CharInfo = (props) => {
 
@@ -34,14 +35,14 @@ const CharInfo = (props) => {
     const skeleton = char || loading || error ? null : <Skeleton />
     const errorMassage = error ? <ErrorMessage /> : null
     const spinner = loading ? <Spinner /> : null
-    const content = !(loading || error || !char) ? <View char={char} /> : null
+    const content = !(loading || error || !char) ? <CSSTransition timeout={500} classNames='char__info__anim' ><View char={char} /></CSSTransition> : null
 
     return (
         <div className="char__info">
-            {skeleton}
             {errorMassage}
-            {spinner}
-            {content}
+            {skeleton}
+            {<TransitionGroup component={null}>{content}</TransitionGroup>}
+
         </div>
     )
 }
