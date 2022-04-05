@@ -20,19 +20,4 @@
         line-height: 24px;
         margin-top: 25px;
     }
-}
-
-.wrap-single {
-    @keyframes animationSingle {
-        0%{
-            opacity: 0;
-            transform: scale(1.5);
-            transform: translateY(200px);
-        }
-        100%{
-            opacity: 1;
-            transform: scale(1);
-            transform: translateY(0);
-        }
-    }
-}   
+}  

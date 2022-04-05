@@ -27,14 +27,14 @@ const RandomChar = () => {
 
     const updateChar = () => {
         clearError();
-        const id = Math.floor(Math.random() * (1011400 - 1011000)) + 1011000;
+        const id = Math.floor(Math.random() * (1011100 - 1011000)) + 1011000;
         getCharacter(id)
             .then(onCharLoaded);
     }
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !char) ? <CSSTransition timeout={500} classNames={`anim`}  ><View char={char} /></CSSTransition> : null;
+    const content = !(loading || error || !char) ? <CSSTransition in={updateChar} timeout={500} classNames={`anim`}  ><View char={char} /></CSSTransition> : null;
 
     return (
         <div className="randomchar">
@@ -51,7 +51,7 @@ const RandomChar = () => {
                 <p className="randomchar__title">
                     Or choose another one
                 </p>
-                <button onClick={updateChar} disabled={spinner} className="button button__main">
+                <button onClick={updateChar} disabled={!content && !error} className="button button__main">
                     <div className="inner">try it</div>
                 </button>
                 <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
@@ -61,8 +61,6 @@ const RandomChar = () => {
 }
 
 const View = ({ char }) => {
-
-    // const [anim, setAnim] = useState(false);
     const { name, description, thumbnail, homepage, wiki } = char;
     let imgStyle = { 'objectFit': '' }
     if (thumbnail.includes('image_not_available') || thumbnail.includes('4c002e0305708')) {
