@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from "react-router-dom"
+import Helmet from 'react-helmet'
 import useMarvelService from '../../services/MarvelService'
 
 import Spinner from '../spinner/Spinner'
@@ -33,6 +34,13 @@ export const SingleComicPage = () => {
             <>
                 <div className="wrap-single">
                     <div className="single-comic">
+                        <Helmet>
+                            <meta
+                                name="description"
+                                content={`${title} comics book`}
+                            />
+                            <title>{`Comic: ${title}`}</title>
+                        </Helmet>
                         <img src={thumbnail} alt={title} className="single-comic__img" />
                         <div className="single-comic__info">
                             <h2 className="single-comic__name">{title}</h2>

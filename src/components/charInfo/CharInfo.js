@@ -1,11 +1,9 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-import Spinner from '../spinner/Spinner'
-import ErrorMessage from '../errorMessage/ErrorMessage'
-import Skeleton from '../skeleton/Skeleton'
-import PropTypes from 'prop-types'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import setContent from '../../utils/setContent'
 
 import useMarvelService from '../../services/MarvelService'
 
@@ -17,7 +15,7 @@ const CharInfo = (props) => {
 
     useEffect(() => { updateChar() }, [props.charId])
 
-    const { loading, error, getCharacter, clearError } = useMarvelService()
+    const { getCharacter, clearError, process, setProcess } = useMarvelService()
 
     const updateChar = () => {
         const { charId } = props
@@ -25,30 +23,24 @@ const CharInfo = (props) => {
             return
         }
         clearError()
-        getCharacter(charId).then(onCharLoaded)
+        getCharacter(charId)
+            .then(onCharLoaded)
+            .then(() => setProcess('confirm'))
     }
 
     const onCharLoaded = (char) => {
         setChar(char)
     }
 
-    const skeleton = char || loading || error ? null : <Skeleton />
-    const errorMassage = error ? <ErrorMessage /> : null
-    const spinner = loading ? <Spinner /> : null
-    const content = !(loading || error || !char) ? <CSSTransition timeout={500} classNames='char__info__anim' ><View char={char} /></CSSTransition> : null
-
     return (
         <div className="char__info">
-            {errorMassage}
-            {skeleton}
-            {<TransitionGroup component={null}>{content}</TransitionGroup>}
-
+            <TransitionGroup component={null}>{setContent(process, View, char)}</TransitionGroup>
         </div>
     )
 }
 
-const View = ({ char }) => {
-    const { name, description, thumbnail, homepage, wiki, comics } = char
+const View = ({ data }) => {
+    const { name, description, thumbnail, homepage, wiki, comics } = data
 
     let imgStyle = { 'objectFit': '' }
     if (thumbnail.includes('image_not_available') || thumbnail.includes('4c002e0305708')) {
@@ -74,6 +66,8 @@ const View = ({ char }) => {
 
     return (
         <>
+            <CSSTransition classNames={`wrapp`} timeout={500} in={setContent}>
+            <div className="wrapp">
             <div className="char__basics">
                 <img src={thumbnail} alt={name} style={imgStyle} />
                 <div>
@@ -110,6 +104,8 @@ const View = ({ char }) => {
                     })
                 }
             </ul>
+            </div>
+            </CSSTransition>
         </>
     )
 }
